@@ -21,14 +21,16 @@ class Contenedor {
 
     async getById(id) {
         try {
+            
             const dataJSON = await this.getAll();
             let data = JSON.parse(dataJSON)
             let item = data.find(producto => producto.id === id);
+            if (item==undefined) item='No existe el producto con Id='+id
             return item;
         }
         catch (error) {
-            console.log('No existe el archivo :' + this.nombre)
-            return "[]";
+            
+            return 'No existe el archivo :' + this.nombre;
         }
     }
 
@@ -37,8 +39,7 @@ class Contenedor {
             return await fs.promises.readFile(this.nombre, 'utf-8') || "[]";
         }
          catch (error) {
-            console.log('No existe el archivo :' + this.nombre)
-            return "[]";
+            return 'No existe el archivo :' + this.nombre;
         }
     }
     
@@ -112,6 +113,7 @@ async function operaciones() {
 
     console.log((await miArchivo.deleteById(3)))
     console.log(JSON.parse(await miArchivo.getAll()))
+    console.log((await miArchivo.getById(8)))
 }
 
 operaciones()
